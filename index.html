@@ -92,13 +92,12 @@
     };
     //YOUR TURN: add your Mapbox token
     
-    mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdHRzYXZpIiwiYSI6ImNsOGVzYjZ3djAycGYzdm9vam40MG40cXcifQ.YHBszyZW7pMQShx0GZISbw'; //SAVI Mapbox token 
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94LWNvbW11bml0eSIsImEiOiJja2tkN21jcjAwMG51MnBxdHAxemdueGpzIn0.e0IzLkytGq4pcGGieP8KNA'; //Mapbox token 
     var map = new mapboxgl.Map({
       container: 'map', // container id
-      style: 'mapbox://styles/prattsavi/clbqt0kf2000d14pfxbpyxnnu', // YOUR TURN: choose a style: https://docs.mapbox.com/api/maps/#styles
-      center: [-73.575, 40.412], // starting position [lng, lat]
-      zoom: 2,// starting zoom
-      projection: 'lambertConformalConic'
+      style: 'mapbox://styles/mapbox/streets-v11', // YOUR TURN: choose a style: https://docs.mapbox.com/api/maps/#styles
+      center: [-122.411, 37.785], // starting position [lng, lat]
+      zoom: 10,// starting zoom
       transformRequest: transformRequest
     });
 
