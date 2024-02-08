@@ -95,9 +95,10 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdHRzYXZpIiwiYSI6ImNsOGVzYjZ3djAycGYzdm9vam40MG40cXcifQ.YHBszyZW7pMQShx0GZISbw'; //Mapbox token 
     var map = new mapboxgl.Map({
       container: 'map', // container id
-      style: 'mapbox://styles/mapbox/dark-v11', // YOUR TURN: choose a style: https://docs.mapbox.com/api/maps/#styles
+      style: 'mapbox://styles/mapbox/dark-v11', // choose a style: https://docs.mapbox.com/api/maps/#styles
       center: [-73.963, 40.691], // starting position [lng, lat]
       zoom: 14,// starting zoom
+      projection: 'albers', // set projection
       transformRequest: transformRequest
     });
 
