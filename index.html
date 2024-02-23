@@ -100,33 +100,6 @@
         url: 'https://docs.google.com/spreadsheets/d/1dVdFynrdxfACMgYRSZgB89-at-XxSjqqzMoHzcNrzow/gviz/tq?tqx=out:csv&sheet=Sheet1',
         dataType: "text",
         success: function(csvData) {
-          // Populate dropdown menus
-          var nameOptions = [];
-          var artistOptions = [];
-          data.features.forEach(function(feature) {
-            nameOptions.push(feature.properties.Name);
-            artistOptions.push(feature.properties.Artist);
-          });
-
-          var uniqueNameOptions = [...new Set(nameOptions)];
-          var uniqueArtistOptions = [...new Set(artistOptions)];
-
-          var nameSelect = document.getElementById('nameSelect');
-          var artistSelect = document.getElementById('artistSelect');
-
-          uniqueNameOptions.forEach(function(name) {
-            var option = document.createElement('option');
-            option.text = name;
-            nameSelect.add(option);
-          });
-
-          uniqueArtistOptions.forEach(function(artist) {
-            var option = document.createElement('option');
-            option.text = artist;
-            artistSelect.add(option);
-          });
-
-          // Call makeGeoJSON function to populate map points
           makeGeoJSON(csvData);
         }
       });
@@ -151,10 +124,33 @@
               }
             });
 
-            // Event handlers for dropdown menus
+            // Populate dropdown menus
+            var nameOptions = [];
+            var artistOptions = [];
+            data.features.forEach(function(feature) {
+              nameOptions.push(feature.properties.Name);
+              artistOptions.push(feature.properties.Artist);
+            });
+
+            var uniqueNameOptions = [...new Set(nameOptions)];
+            var uniqueArtistOptions = [...new Set(artistOptions)];
+
             var nameSelect = document.getElementById('nameSelect');
             var artistSelect = document.getElementById('artistSelect');
 
+            uniqueNameOptions.forEach(function(name) {
+              var option = document.createElement('option');
+              option.text = name;
+              nameSelect.add(option);
+            });
+
+            uniqueArtistOptions.forEach(function(artist) {
+              var option = document.createElement('option');
+              option.text = artist;
+              artistSelect.add(option);
+            });
+
+            // Event handlers for dropdown menus
             nameSelect.addEventListener('change', function() {
               var selectedName = this.value;
               filterMap('Name', selectedName);
@@ -189,7 +185,7 @@
             });
           });
         });
-      }
+      };
     });
   </script>
 
