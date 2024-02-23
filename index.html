@@ -35,6 +35,13 @@
       font-family: 'Source Sans Pro', sans-serif;
     }
 
+    .sidebar-title {
+      font-family: 'Source Sans Pro', sans-serif;
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 15px; 
+    }  
+
     .sidebar-content {
       padding: 5px;
       border-bottom: 1px solid #ddd;
@@ -57,9 +64,10 @@
 <body>
 
   <div id='map'></div>
-  <div id='sidebar'></div>
-    <h3>Pratt Institute Sculpture Park Map</h3>
-    <p>Click on the sculpture locations to see more details.</p>
+  <div id='sidebar'>
+      <h2 class="sidebar-title">Sidebar Title</h2>
+  </div>
+
 
   <script>
     var transformRequest = (url, resourceType) => {
