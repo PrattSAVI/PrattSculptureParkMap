@@ -3,7 +3,7 @@
 
 <head>
   <meta charset='utf-8' />
-  <title>Pratt Institute Sculpture Park</title>
+  <title>Pratt Institute Sculpture Park Map</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
@@ -11,150 +11,92 @@
   <script src='https://npmcdn.com/csv2geojson@latest/csv2geojson.js'></script>
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
   <style>
-    body {margin: 0; padding: 0;}
-
-    #map {position: absolute; top: 0; bottom: 0; width: 100%;}
-    #sidebar { position: absolute; top: 0; right: 0; width: 33%; height: 100%; background-color: #f9f9f9; }
-    
-    </style>
-
-    </style>
-      </head>
-      <body>
-      <style>
-          .map-overlay-container {
-              position: absolute;
-              width: 25%;
-              top: 0;
-              left: 0;
-              padding: 10px;
-              z-index: 1;
-              }
-     
-        .map-overlay {
-              font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-              background-color: #fff;
-              border-radius: 3px;
-              padding: 10px;
-              box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-              }
-         
-        .map-overlay h2,
-        .map-overlay p {
-        margin: 0 0 10px;
-        }
-        </style>
-         
-        <div id="map"></div>
-         
-        <div class="map-overlay-container">
-        <div class="map-overlay">
-        <h2 id="location-title"></h2>
-        <p id="location-description"></p>
-        <small>Text credit:
-        <a target="_blank" href="http://www.nycgo.com/neighborhoods">nycgo.com</a></small>
-        </div>
-        </div>
-
-    /* Popup styling */
-
-    .mapboxgl-popup {
-      padding-bottom: 5px;
-    }
-
-    .mapboxgl-popup-close-button {
-      display: none;
-    }
-
-    .mapboxgl-popup-content {
-      font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+    body {
+      margin: 0;
       padding: 0;
-      width: 250px;
     }
 
-    .mapboxgl-popup-content-wrapper {
-      padding: 1%;
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 70%;
     }
 
-    .mapboxgl-popup-content h3 {
-      background: rgb(61, 59, 59);
-      text-align: center;
-      color: #fff;
-      margin: 0;
-      display: block;
-      padding: 15px;
-      font-weight: 700;
-      margin-top: -5px;
+    #sidebar {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 30%;
+      overflow: auto;
+      background-color: #F0F0F2;
+      padding: 10px;
+      font-family: 'Source Sans Pro', sans-serif;
     }
 
-    .mapboxgl-popup-content h4 {
-      margin: 0;
-      display: block;
-      padding: 10px 3px 10px 10px;
-      font-weight: 400;
+    .sidebar-content {
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
     }
 
-    .mapboxgl-container {
-      cursor: pointer;
+    .sidebar-content h3 {
+      margin-top: 0;
+      font-family: 'Source Sans Pro', sans-serif; 
+      font-weight: 700; 
+      color: black; 
     }
-
-    .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
-      margin-top: 3px;
-    }
-
-    .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
-      border-bottom-color: rgb(61, 59, 59);
-    }
+     .sidebar-content p {
+    font-family: 'Source Serif Pro', serif; 
+    font-weight: 500; 
+    color: black; 
+  }
   </style>
 </head>
 
 <body>
 
   <div id='map'></div>
-  <script>
+  <div id='sidebar'></div>
 
+  <script>
     var transformRequest = (url, resourceType) => {
       var isMapboxRequest =
         url.slice(8, 22) === "api.mapbox.com" ||
         url.slice(10, 26) === "tiles.mapbox.com";
       return {
-        url: isMapboxRequest
-          ? url.replace("?", "?pluginName=sheetMapper&")
-          : url
+        url: isMapboxRequest ?
+          url.replace("?", "?pluginName=sheetMapper&") :
+          url
       };
     };
-    //YOUR TURN: add your Mapbox token
-    
-    mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdHRzYXZpIiwiYSI6ImNsOGVzYjZ3djAycGYzdm9vam40MG40cXcifQ.YHBszyZW7pMQShx0GZISbw'; //Mapbox token 
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiamxhdWVybWEiLCJhIjoiY2xoMHh4anlkMDM4eTNjcXJpZG5idjN5dCJ9.Ph4gYrj6b2Krr3qd0YCfAw'; 
     var map = new mapboxgl.Map({
       container: 'map', // container id
-      style: 'mapbox://styles/prattsavi/clsvsq7rx00eb01p4846bee87', // choose a style: https://docs.mapbox.com/api/maps/#styles
-      center: [-73.963, 40.691], // starting position [lng, lat]
-      zoom: 14,// starting zoom
-      projection: 'albers', // set projection
+      style: 'mapbox://styles/jlauerma/clh0zqnph012k01pa7g6dah4j', 
+      center: [-73.963, 40.691], 
+      zoom: 17, // starting zoom
       transformRequest: transformRequest
     });
 
-    $(document).ready(function () {
+    $(document).ready(function() {
       $.ajax({
         type: "GET",
-        //YOUR TURN: Replace with csv export link
-        url: 'https://docs.google.com/spreadsheets/d/1dLkr70tfAL_-U6ipad9xLF39lHmU8k-xd08uKHkLD5M/gviz/tq?tqx=out:csv&sheet=Sheet1',
+        url: 'https://docs.google.com/spreadsheets/d/1dVdFynrdxfACMgYRSZgB89-at-XxSjqqzMoHzcNrzow/gviz/tq?tqx=out:csv&sheet=Sheet1',
         dataType: "text",
-        success: function (csvData) { makeGeoJSON(csvData); }
+        success: function(csvData) {
+          makeGeoJSON(csvData);
+        }
       });
-
-
 
       function makeGeoJSON(csvData) {
         csv2geojson.csv2geojson(csvData, {
           latfield: 'Latitude',
           lonfield: 'Longitude',
           delimiter: ','
-        }, function (err, data) {
-          map.on('load', function () {
-
-            //Add the the layer to the map
+        }, function(err, data) {
+          map.on('load', function() {
             map.addLayer({
               'id': 'csvData',
               'type': 'circle',
@@ -164,58 +106,37 @@
               },
               'paint': {
                 'circle-radius': 5,
-                'circle-color': "purple"
+                'circle-color': "#5154CC"
               }
             });
 
-
-            // When a click event occurs on a feature in the csvData layer, open a popup at the
-            // location of the feature, with description HTML from its properties.
-            map.on('click', 'csvData', function (e) {
-              var coordinates = e.features[0].geometry.coordinates.slice();
-
-              //set popup text
-              //You can adjust the values of the popup to match the headers of your CSV.
-              // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV.
-              var description = `<h3>` + e.features[0].properties.Name + `</h3>` + `<h4>` + `<b>` + `Address: ` + `</b>` + e.features[0].properties.Address + `</h4>` + `<h4>` + `<b>` + `Phone: ` + `</b>` + e.features[0].properties.Phone + `</h4>`;
-
-              // Ensure that if the map is zoomed out such that multiple
-              // copies of the feature are visible, the popup appears
-              // over the copy being pointed to.
-              while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-              }
-
-              //add Popup to map
-
-              new mapboxgl.Popup()
-                .setLngLat(coordinates)
-                .setHTML(description)
-                .addTo(map);
+            map.on('click', 'csvData', function(e) {
+              var properties = e.features[0].properties;
+              var sidebarContent = '<div class="sidebar-content">';
+              sidebarContent += '<h3>' + properties.Name + '</h3>';
+              sidebarContent += '<img src="' + properties.Media + '" style="max-width:100%;height:auto">';
+              sidebarContent += '<p><strong>Artist:</strong> ' + properties.Artist + '</p>';
+              sidebarContent += '<p><strong>Year:</strong> ' + properties.Year + '</p>';
+              sidebarContent += '</div>';
+              document.getElementById('sidebar').innerHTML = sidebarContent;
             });
 
-            // Change the cursor to a pointer when the mouse is over the places layer.
-            map.on('mouseenter', 'csvData', function () {
+            map.on('mouseenter', 'csvData', function() {
               map.getCanvas().style.cursor = 'pointer';
             });
 
-            // Change it back to a pointer when it leaves.
-            map.on('mouseleave', 'places', function () {
+            map.on('mouseleave', 'csvData', function() {
               map.getCanvas().style.cursor = '';
             });
 
             var bbox = turf.bbox(data);
-            map.fitBounds(bbox, { padding: 50 });
-
+            map.fitBounds(bbox, {
+              padding: 50
+            });
           });
-
         });
       };
     });
-
-
-
-
   </script>
 
 </body>
