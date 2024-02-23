@@ -1,3 +1,12 @@
+To modify the script to include a menu in the sidebar for selecting a point by the attributes Name or Artist, you can follow these steps:
+
+1. Add HTML markup for the dropdown menus below the sidebar title.
+2. Populate the dropdown menus with options from the Name and Artist columns in the Google Sheet.
+3. Add event handlers to capture the selection from the dropdown menus and filter the map accordingly.
+
+Here's the modified script:
+
+```html
 <!DOCTYPE html>
 <html>
 
@@ -65,9 +74,13 @@
 
   <div id='map'></div>
   <div id='sidebar'>
-      <h2 class="sidebar-title">Pratt Institute Sculpture Park</h2>
+    <h2 class="sidebar-title">Pratt Institute Sculpture Park</h2>
+    <div class="sidebar-content">
+      <p>Find a sculpture:</p>
+      <select id="nameSelect" class="dropdown"></select>
+      <select id="artistSelect" class="dropdown"></select>
+    </div>
   </div>
-
 
   <script>
     var transformRequest = (url, resourceType) => {
@@ -120,6 +133,47 @@
               }
             });
 
+            // Populate dropdown menus
+            var nameOptions = [];
+            var artistOptions = [];
+            data.features.forEach(function(feature) {
+              nameOptions.push(feature.properties.Name);
+              artistOptions.push(feature.properties.Artist);
+            });
+
+            var uniqueNameOptions = [...new Set(nameOptions)];
+            var uniqueArtistOptions = [...new Set(artistOptions)];
+
+            var nameSelect = document.getElementById('nameSelect');
+            var artistSelect = document.getElementById('artistSelect');
+
+            uniqueNameOptions.forEach(function(name) {
+              var option = document.createElement('option');
+              option.text = name;
+              nameSelect.add(option);
+            });
+
+            uniqueArtistOptions.forEach(function(artist) {
+              var option = document.createElement('option');
+              option.text = artist;
+              artistSelect.add(option);
+            });
+
+            // Event handlers for dropdown menus
+            nameSelect.addEventListener('change', function() {
+              var selectedName = this.value;
+              filterMap('Name', selectedName);
+            });
+
+            artistSelect.addEventListener('change', function() {
+              var selectedArtist = this.value;
+              filterMap('Artist', selectedArtist);
+            });
+
+            function filterMap(attribute, value) {
+              map.setFilter('csvData', ['==', attribute, value]);
+            }
+
             map.on('click', 'csvData', function(e) {
               var properties = e.features[0].properties;
               var sidebarContent = '<div class="sidebar-content">';
@@ -136,19 +190,4 @@
             });
 
             map.on('mouseleave', 'csvData', function() {
-              map.getCanvas().style.cursor = '';
-            });
-
-            var bbox = turf.bbox(data);
-            map.fitBounds(bbox, {
-              padding: 50
-            });
-          });
-        });
-      };
-    });
-  </script>
-
-</body>
-
-</html>
+             
