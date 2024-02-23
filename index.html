@@ -76,6 +76,7 @@
   </div>
 
   <script>
+    // configure the basemap
     var transformRequest = (url, resourceType) => {
       var isMapboxRequest =
         url.slice(8, 22) === "api.mapbox.com" ||
@@ -96,6 +97,7 @@
       transformRequest: transformRequest
     });
 
+    //add google sheets data
     $(document).ready(function() {
       $.ajax({
         type: "GET",
@@ -167,6 +169,7 @@
               map.setFilter('csvData', ['==', attribute, value]);
             }
 
+            // configure map interactions 
             map.on('click', 'csvData', function(e) {
               var properties = e.features[0].properties;
               var sidebarContent = '<div class="sidebar-content">';
