@@ -96,7 +96,7 @@ $(document).ready(function() {
           var properties = e.features[0].properties;
           var sidebarContent = '<div class="sidebar-content">';
           sidebarContent += '<h3>' + properties.Name + '</h3>';
-          sidebarContent += '<img src="' + properties.Media + '" style="max-width:100%;height:auto">';
+          sidebarContent += '<img src="' + properties.Media + '" style="max-width:80%;height:auto">';
           sidebarContent += '<p><strong>Artist:</strong> ' + properties.Artist + '</p>';
           sidebarContent += '<p><strong>Year:</strong> ' + properties.Year + '</p>';
           sidebarContent += '</div>';
