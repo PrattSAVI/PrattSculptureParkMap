@@ -100,7 +100,11 @@ $(document).ready(function() {
           sidebarContent += '<p><strong>Artist:</strong> ' + properties.Artist + '</p>';
           sidebarContent += '<p><strong>Year:</strong> ' + properties.Year + '</p>';
           sidebarContent += '</div>';
-          document.getElementById('sidebar').innerHTML = sidebarContent;
+          $('#sidebar').append(sidebarContent);
+        });
+
+        map.on('click', function() {
+          $('#sidebar').empty(); // Clear sidebar content when map is clicked
         });
 
         map.on('mouseenter', 'csvData', function() {
