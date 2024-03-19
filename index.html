@@ -13,13 +13,28 @@
   <div id='map'></div>
   <div id='sidebar'>
     <h2 class="sidebar-title">Pratt Institute Sculpture Park</h2>
-    <div class="sidebar-content">
-      <p>Find a sculpture:</p>
-      <label for="nameSelect">Name of work:</label>
-      <select id="nameSelect" class="dropdown"></select>
-      <label for="artistSelect">Artist:</label>
-      <select id="artistSelect" class="dropdown"></select>
+    
+    <!-- Selection menu -->
+    <div id="selection-section">
+      <div class="sidebar-content">
+        <p>Find a sculpture:</p>
+        <label for="nameSelect">Name of work:</label>
+        <select id="nameSelect" class="dropdown"></select>
+        <label for="artistSelect">Artist:</label>
+        <select id="artistSelect" class="dropdown"></select>
+      </div>
     </div>
+  
+    <!-- popup information menu -->
+    <div id="point-info-section" style="display: none;">
+      <div class="sidebar-content">
+        <h3 id="point-name"></h3>
+        <img id="point-image" style="max-width:100%;height:auto">
+        <p><strong>Artist:</strong> <span id="point-artist"></span></p>
+        <p><strong>Year:</strong> <span id="point-year"></span></p>
+      </div>
+    </div>
+      
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
