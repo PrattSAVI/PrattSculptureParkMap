@@ -99,23 +99,14 @@ $(document).ready(function() {
         map.on('click', 'csvData', function(e) {
           var properties = e.features[0].properties;
           // Show the point-specific information section
-          document.getElementById('point-info-section').style.display = 'block';
+          document.getElementById('popup-content').style.display = 'block';
           // Hide the selection menus section
-          document.getElementById('selection-section').style.display = 'none';
+          document.getElementById('query-menu').style.display = 'none';
           // Update point-specific information
           document.getElementById('point-name').innerText = properties.Name;
           document.getElementById('point-image').src = properties.Media;
           document.getElementById('point-artist').innerText = properties.Artist;
           document.getElementById('point-year').innerText = properties.Year;
-        });
-        });
-
-        map.on('mouseenter', 'csvData', function() {
-          map.getCanvas().style.cursor = 'pointer';
-        });
-
-        map.on('mouseleave', 'csvData', function() {
-          map.getCanvas().style.cursor = '';
         });
       });
     });
