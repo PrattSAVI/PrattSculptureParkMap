@@ -1,1 +1,48 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 70%;
+}
+
+#sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 30%;
+  overflow: auto;
+  background-color: #F0F0F2;
+  padding: 10px;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.sidebar-title {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 15px; 
+}  
+
+.sidebar-content {
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.sidebar-content h3 {
+  margin-top: 0;
+  font-family: 'Source Sans Pro', sans-serif; 
+  font-weight: 700; 
+  color: black; 
+}
+.sidebar-content p {
+  font-family: 'Source Serif Pro', serif; 
+  font-weight: 500; 
+  color: black; 
+}
 
