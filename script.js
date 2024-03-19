@@ -97,7 +97,7 @@ $(document).ready(function() {
   mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdHRzYXZpIiwiYSI6ImNsOGVzYjZ3djAycGYzdm9vam40MG40cXcifQ.YHBszyZW7pMQShx0GZISbw'; 
   var map = new mapboxgl.Map({
     container: 'map', // container id
-    style: 'mapbox://styles/prattsavi/cltf5c5f201ie01p34qlzf7pl', 
+    style: 'mapbox://styles/prattsavi/clsvsq7rx00eb01p4846bee87', 
     center: [-73.963502, 40.690914], 
     zoom: 17 // starting zoom
   });
