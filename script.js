@@ -27,9 +27,6 @@ $(document).ready(function() {
     dataType: "text",
     success: function(csvData) {
       makeGeoJSON(csvData);
-    },
-    error: function(xhr, status, error) {
-      console.error("Error fetching CSV:", error);
     }
   });
 
@@ -39,10 +36,6 @@ $(document).ready(function() {
       lonfield: 'Longitude',
       delimiter: ','
     }, function(err, data) {
-      if (err) {
-        console.error("Error converting CSV to GeoJSON:", err);
-        return;
-      }
       map.on('load', function() {
         map.addLayer({
           'id': 'csvData',
@@ -84,17 +77,18 @@ $(document).ready(function() {
         });
 
         // Event handlers for dropdown menus
-        $('#nameSelect, #artistSelect').on('change', function() {
-          var selectedName = $('#nameSelect').val();
-          var selectedArtist = $('#artistSelect').val();
-          filterMap(selectedName, selectedArtist);
+        nameSelect.addEventListener('change', function() {
+          var selectedName = this.value;
+          filterMap('Name', selectedName);
         });
 
-        function filterMap(selectedName, selectedArtist) {
-          var filter = ['all'];
-          if (selectedName) filter.push(['==', 'Name', selectedName]);
-          if (selectedArtist) filter.push(['==', 'Artist', selectedArtist]);
-          map.setFilter('csvData', filter);
+        artistSelect.addEventListener('change', function() {
+          var selectedArtist = this.value;
+          filterMap('Artist', selectedArtist);
+        });
+
+        function filterMap(attribute, value) {
+          map.setFilter('csvData', ['==', attribute, value]);
         }
 
         // configure map interactions 
@@ -106,7 +100,7 @@ $(document).ready(function() {
           sidebarContent += '<p><strong>Artist:</strong> ' + properties.Artist + '</p>';
           sidebarContent += '<p><strong>Year:</strong> ' + properties.Year + '</p>';
           sidebarContent += '</div>';
-          $('#sidebar').html(sidebarContent);
+          document.getElementById('sidebar').innerHTML = sidebarContent;
         });
 
         map.on('mouseenter', 'csvData', function() {
