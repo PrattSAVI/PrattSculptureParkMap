@@ -1,4 +1,25 @@
-//load CSV data
+// load basemap
+var transformRequest = (url, resourceType) => {
+  var isMapboxRequest =
+    url.slice(8, 22) === "api.mapbox.com" ||
+    url.slice(10, 26) === "tiles.mapbox.com";
+  return {
+    url: isMapboxRequest ?
+      url.replace("?", "?pluginName=sheetMapper&") :
+      url
+  };
+};
+
+mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdHRzYXZpIiwiYSI6ImNsOGVzYjZ3djAycGYzdm9vam40MG40cXcifQ.YHBszyZW7pMQShx0GZISbw'; 
+var map = new mapboxgl.Map({
+  container: 'map', // container id
+  style: 'mapbox://styles/mapbox/light-v11', 
+  center: [-73.963502, 40.690914], 
+  zoom: 17, // starting zoom
+  transformRequest: transformRequest
+});
+
+//add google sheets data
 $(document).ready(function() {
   $.ajax({
     type: "GET",
@@ -92,13 +113,4 @@ $(document).ready(function() {
       });
     });
   };
-
-  // Load basemap
-  mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdHRzYXZpIiwiYSI6ImNsOGVzYjZ3djAycGYzdm9vam40MG40cXcifQ.YHBszyZW7pMQShx0GZISbw'; 
-  var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/light-v11', 
-    center: [-73.963502, 40.690914], 
-    zoom: 17 // starting zoom
-  });
 });
