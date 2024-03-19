@@ -23,10 +23,13 @@ var map = new mapboxgl.Map({
 $(document).ready(function() {
   $.ajax({
     type: "GET",
-    url: 'https://docs.google.com/spreadsheets/d/1dVdFynrdxfACMgYRSZgB89-at-XxSjqqzMoHzcNrzow/gviz/tq?tqx=out:csv&sheet=Sheet1',
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHol0hJ1cL5uOKAW18Gj_duEwE9oL2cyxfio3UNmBGp0GYQGtGhoW1T74rlg-xLHYXqjAaHnZSO9Of/pub?gid=0&single=true&output=csv',
     dataType: "text",
     success: function(csvData) {
       makeGeoJSON(csvData);
+    },
+    error: function(xhr, status, error) {
+      console.error("Error fetching CSV:", error);
     }
   });
 
@@ -36,6 +39,10 @@ $(document).ready(function() {
       lonfield: 'Longitude',
       delimiter: ','
     }, function(err, data) {
+      if (err) {
+        console.error("Error converting CSV to GeoJSON:", err);
+        return;
+      }
       map.on('load', function() {
         map.addLayer({
           'id': 'csvData',
@@ -77,18 +84,17 @@ $(document).ready(function() {
         });
 
         // Event handlers for dropdown menus
-        nameSelect.addEventListener('change', function() {
-          var selectedName = this.value;
-          filterMap('Name', selectedName);
+        $('#nameSelect, #artistSelect').on('change', function() {
+          var selectedName = $('#nameSelect').val();
+          var selectedArtist = $('#artistSelect').val();
+          filterMap(selectedName, selectedArtist);
         });
 
-        artistSelect.addEventListener('change', function() {
-          var selectedArtist = this.value;
-          filterMap('Artist', selectedArtist);
-        });
-
-        function filterMap(attribute, value) {
-          map.setFilter('csvData', ['==', attribute, value]);
+        function filterMap(selectedName, selectedArtist) {
+          var filter = ['all'];
+          if (selectedName) filter.push(['==', 'Name', selectedName]);
+          if (selectedArtist) filter.push(['==', 'Artist', selectedArtist]);
+          map.setFilter('csvData', filter);
         }
 
         // configure map interactions 
@@ -100,7 +106,7 @@ $(document).ready(function() {
           sidebarContent += '<p><strong>Artist:</strong> ' + properties.Artist + '</p>';
           sidebarContent += '<p><strong>Year:</strong> ' + properties.Year + '</p>';
           sidebarContent += '</div>';
-          document.getElementById('sidebar').innerHTML = sidebarContent;
+          $('#sidebar').html(sidebarContent);
         });
 
         map.on('mouseenter', 'csvData', function() {
@@ -114,5 +120,3 @@ $(document).ready(function() {
     });
   };
 });
-
-
