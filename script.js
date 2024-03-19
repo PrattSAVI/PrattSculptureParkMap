@@ -1,4 +1,4 @@
-// load basemap
+// configure the basemap
 var transformRequest = (url, resourceType) => {
   var isMapboxRequest =
     url.slice(8, 22) === "api.mapbox.com" ||
@@ -13,7 +13,7 @@ var transformRequest = (url, resourceType) => {
 mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdHRzYXZpIiwiYSI6ImNsOGVzYjZ3djAycGYzdm9vam40MG40cXcifQ.YHBszyZW7pMQShx0GZISbw'; 
 var map = new mapboxgl.Map({
   container: 'map', // container id
-  style: 'mapbox://styles/mapbox/light-v11', 
+  style: 'mapbox://styles/prattsavi/cltf5c5f201ie01p34qlzf7pl', 
   center: [-73.963502, 40.690914], 
   zoom: 17, // starting zoom
   transformRequest: transformRequest
@@ -89,26 +89,24 @@ $(document).ready(function() {
 
         function filterMap(attribute, value) {
           map.setFilter('csvData', ['==', attribute, value]);
+          // Show the selection menus section
+          document.getElementById('selection-section').style.display = 'block';
+          // Hide the point-specific information section
+          document.getElementById('point-info-section').style.display = 'none';
         }
 
         // configure map interactions 
         map.on('click', 'csvData', function(e) {
           var properties = e.features[0].properties;
-          var sidebarContent = '<div class="sidebar-content">';
-          sidebarContent += '<h3>' + properties.Name + '</h3>';
-          sidebarContent += '<img src="' + properties.Media + '" style="max-width:100%;height:auto">';
-          sidebarContent += '<p><strong>Artist:</strong> ' + properties.Artist + '</p>';
-          sidebarContent += '<p><strong>Year:</strong> ' + properties.Year + '</p>';
-          sidebarContent += '</div>';
-          document.getElementById('sidebar').innerHTML = sidebarContent;
-        });
-
-        map.on('mouseenter', 'csvData', function() {
-          map.getCanvas().style.cursor = 'pointer';
-        });
-
-        map.on('mouseleave', 'csvData', function() {
-          map.getCanvas().style.cursor = '';
+          // Show the point-specific information section
+          document.getElementById('point-info-section').style.display = 'block';
+          // Hide the selection menus section
+          document.getElementById('selection-section').style.display = 'none';
+          // Update point-specific information
+          document.getElementById('point-name').innerText = properties.Name;
+          document.getElementById('point-image').src = properties.Media;
+          document.getElementById('point-artist').innerText = properties.Artist;
+          document.getElementById('point-year').innerText = properties.Year;
         });
       });
     });
