@@ -10,7 +10,7 @@ var transformRequest = (url, resourceType) => {
   };
 };
 
-mapboxgl.accessToken = 'pk.eyJ1IjoicHJhdHRzYXZpIiwiYSI6ImNsOGVzYjZ3djAycGYzdm9vam40MG40cXcifQ.YHBszyZW7pMQShx0GZISbw'; 
+mapboxgl.accessToken = 'your key here'; 
 var map = new mapboxgl.Map({
   container: 'map', // container id
   style: 'mapbox://styles/mapbox/light-v11', 
@@ -23,7 +23,7 @@ var map = new mapboxgl.Map({
 $(document).ready(function() {
   $.ajax({
     type: "GET",
-    url: 'https://docs.google.com/spreadsheets/d/1dVdFynrdxfACMgYRSZgB89-at-XxSjqqzMoHzcNrzow/gviz/tq?tqx=out:csv&sheet=Sheet1',
+    url: 'your CSV sheet here',
     dataType: "text",
     success: function(csvData) {
       makeGeoJSON(csvData);
